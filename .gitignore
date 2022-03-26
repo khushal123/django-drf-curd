@@ -1,0 +1,33 @@
+**/__pycache__/
+__pycache__/
+*.py[cod]
+*.pyc 
+
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Django stuff:
+*.log
+*.pot
+db.sqlite3
+
+# Sphinx documentation
+docs/_build/
+
+bin/.env
+.vscode
+.idea
