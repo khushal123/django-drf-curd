@@ -9,12 +9,13 @@ class DrfBackend(BaseBackend):
         email = kwargs['email']
         password = kwargs["password"]
         try:
-            user = User.objects.get(email=email)
+            print(kwargs)
+            user = User.objects.filter(email=email).get()
             pwd_valid = check_password(password, user.password)
-            if pwd_valid:
+            if pwd_valid is False:
                 return Exception("Invalid password")
             return user
         except User.DoesNotExist:
             raise Exception("User not found")
-        return ""
+        return None
 
