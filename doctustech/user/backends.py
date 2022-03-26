@@ -6,16 +6,15 @@ from doctustech.user.models import User
 
 class DrfBackend(BaseBackend):
     def authenticate(self, request: Optional[HttpRequest], **kwargs: Any):
+        print(kwargs)
         email = kwargs['email']
         password = kwargs["password"]
         try:
-            print(kwargs)
-            user = User.objects.filter(email=email).get()
+            user = User.objects.get(email=email)
             pwd_valid = check_password(password, user.password)
-            if pwd_valid is False:
-                return Exception("Invalid password")
-            return user
+            if pwd_valid:
+                return user
+            return None
         except User.DoesNotExist:
-            raise Exception("User not found")
-        return None
+            return None
 

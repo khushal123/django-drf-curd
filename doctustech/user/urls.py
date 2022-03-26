@@ -15,12 +15,14 @@ Including another URLconf
 """
 
 from django.urls import path
-from doctustech.user.views import CreateUserView, LoginView
+from doctustech.user.views import ActivateView, CreateUserView, LoginView
 from rest_framework_simplejwt.views import TokenRefreshView
+
 
 urlpatterns = [
     path('', CreateUserView.as_view(), name='user_create'),
     path('login/', LoginView.as_view(), name='token_obtain_pair'),
+    path('activate/', ActivateView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 

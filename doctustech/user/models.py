@@ -11,4 +11,5 @@ class User(AbstractUser):
     password = CharField(max_length=100)
     profile_status = CharField(max_length=100)
     profile_image = TextField()
+    activation_token = TextField(default=None, null=True)
 
