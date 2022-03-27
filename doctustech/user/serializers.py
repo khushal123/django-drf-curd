@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 from base64 import b64encode
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UsereCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["name", "email", "password", "activation_token"]
@@ -22,6 +22,12 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data["password"] = make_password(
             validated_data.get("password"))
         return User.objects.create(**validated_data)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["is_active", "activation_token", "profile_status"]
 
 
 class LoginSerializer(TokenObtainPairSerializer):

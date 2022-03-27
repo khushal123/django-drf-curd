@@ -1,6 +1,7 @@
 from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.views import APIView
 from doctustech.user.models import User
-from doctustech.user.serializers import ActivateSerializer, UserSerializer, UserUpdateSerializer
+from doctustech.user.serializers import ActivateSerializer, UsereCreateSerializer, UserUpdateSerializer
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
 )
@@ -12,15 +13,19 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 # Create your views here.
 
 
-class CreateUserView(CreateAPIView):
-    serializer_class = UserSerializer
+class UserView(APIView):
+    
+    def post(self, request, format=None):
+        serializer = UsereCreateSerializer(data=request.data)
+        if(serializer.is_valid()):
+            serializer.save()
+            return Response({}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def get(self, request, format=None):
+        pass
 
-class LoginView(TokenObtainPairView):
-    serializer_class = TokenObtainPairSerializer
-
-class ActivateView(UpdateAPIView):
-    def patch(self, request, *args, **kwargs):
+    def patch(self, request, format=None):
         print(request.data)
         try:
             data = request.data
@@ -36,6 +41,10 @@ class ActivateView(UpdateAPIView):
             return Response({}, status=status.HTTP_404_NOT_FOUND)
         except User.DoesNotExist:
             return Response({}, status=status.HTTP_404_NOT_FOUND)
+
+class LoginView(TokenObtainPairView):
+    serializer_class = TokenObtainPairSerializer
+
 
 class UpdateUserView(UpdateAPIView):
     serializer_class = UserUpdateSerializer
