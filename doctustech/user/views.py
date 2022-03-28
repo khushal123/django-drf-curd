@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.generics import  UpdateAPIView
 from rest_framework.views import APIView
 from doctustech.user.models import User
 from doctustech.user.serializers import ActivateSerializer, UsereCreateSerializer, UserUpdateSerializer

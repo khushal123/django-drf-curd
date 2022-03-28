@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.urls import path
-from doctustech.user.views import ActivateView, LoginView, UserView
+from doctustech.user.views import LoginView, UserView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
