@@ -27,7 +27,8 @@ class UsereCreateSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["is_active", "activation_token", "profile_status"]
+        fields = ["profile_status", "profile_image", "name", "is_active"]
+        
 
 
 class LoginSerializer(TokenObtainPairSerializer):
@@ -43,7 +44,4 @@ class ActivateSerializer(serializers.ModelSerializer):
         fields = ["is_active"]
 
 
-class UserUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["profile_status"]
+
