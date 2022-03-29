@@ -1,28 +1,32 @@
-"""doctustech URL Configuration
+from rest_framework.views import APIView
+from doctustech.post.models import Post, Like, Comment
+from django.http import Http404
+from doctustech.post.serializers import PostSerializer
+from rest_framework.response import Response
+from rest_framework import status
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
-from django.urls import path
-from doctustech.user.views import ActivateView, CreateUserView, LoginView
-from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework.permissions import IsAuthenticated
+# Create your views here.
 
 
-urlpatterns = [
-    path('', CreateUserView.as_view(), name='post_create'),
-    path('like/', LoginView.as_view(), name='like_post'),
-    path('comment/', ActivateView.as_view(), name='comment_post'),
-]
+class PostView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, format=None):
+        serializer = PostSerializer(data=request.data)
+        if(serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+    def get_object(self, pk):
+        try:
+            return Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
+            raise Http404
+
+    def get(self, request, id):
+        post = self.get_object(id)
+        serializer = PostSerializer(post)
+        return Response(serializer.data)

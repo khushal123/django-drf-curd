@@ -27,7 +27,7 @@ class UsereCreateSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["profile_status", "profile_image", "name", "is_active"]
+        exclude = ["email", "password", "profile_image", "is_active", "activation_token"]
         
 
 
