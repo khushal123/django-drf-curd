@@ -17,13 +17,12 @@ Including another URLconf
 from django.urls import path
 from doctustech.user.views import ActivateUserView, LoginView, UserView, PostView
 from rest_framework_simplejwt.views import TokenRefreshView
-from doctustech.post.views import PostView
 
 
 urlpatterns = [
-    path('', UserView.as_view(), name='user'),
+    path('', UserView.as_view(), name='create_user'),
     path('<int:id>/', UserView.as_view(), name='user'),
-    path('<int:id>/posts/', PostView.as_view(), name='posts'),
+    path('<int:id>/posts/', PostView.as_view(), name='posts_by_user'),
     path('activate/', ActivateUserView.as_view(), name="activate"),
     path('login/', LoginView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

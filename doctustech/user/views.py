@@ -1,5 +1,6 @@
 from rest_framework.generics import UpdateAPIView, ListAPIView
 from rest_framework.views import APIView
+from doctustech.post.models import Post
 from doctustech.post.serializers import PostSerializer
 from doctustech.user.models import User
 from doctustech.user.serializers import ActivateSerializer, UsereCreateSerializer, UserSerializer
@@ -76,9 +77,15 @@ class ActivateUserView(UpdateAPIView):
 
 
 class PostView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = PostSerializer
 
-    def get(self, request, id):
-        serializer = PostSerializer(post_by=id)
-        if serializer.is_valid:
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        return Post.objects.filter(post_by=self.kwargs['id'])
+
+    # def get(self, request, id):
+    #     posts = Post.objects.get(post_by=id)
+    #     serializer = PostSerializer(posts, many=True)
+    #     if serializer.is_valid:
+    #         return Response(serializer.data, status=status.HTTP_200_OK)
+    #     return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
